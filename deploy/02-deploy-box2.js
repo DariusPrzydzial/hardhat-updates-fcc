@@ -26,7 +26,9 @@ module.exports = async ({ getNamedAccounts, deployments }) => {
     // Verify the deployment
     if (!developmentChains.includes(network.name) && process.env.ETHERSCAN_API_KEY) {
         log("Verifying...")
-        await verify(box.address, [])
+        const boxAddress = (await ethers.getContract("Box_Implementation")).address;
+        await verify(boxAddress, [])
+        //await verify(box.address, [])
     }
     log("----------------------------------------------------")
 }

@@ -29,11 +29,15 @@ async function main() {
     // Not "the hardhat-deploy way"
     const boxProxyAdmin = await ethers.getContract("BoxProxyAdmin")
     const transparentProxy = await ethers.getContract("Box_Proxy")
+
+    const proxyBoxV1 = await ethers.getContractAt("Box", transparentProxy.address)
+    const versionV1 = await proxyBoxV1.version()
+    console.log(versionV1.toString())
     const upgradeTx = await boxProxyAdmin.upgrade(transparentProxy.address, boxV2.address)
     await upgradeTx.wait(1)
-    const proxyBox = await ethers.getContractAt("BoxV2", transparentProxy.address)
-    const version = await proxyBox.version()
-    console.log(version.toString())
+    const proxyBoxV2 = await ethers.getContractAt("BoxV2", transparentProxy.address)
+    const versionV2 = await proxyBoxV2.version()
+    console.log(versionV2.toString())
     log("----------------------------------------------------")
 }
 
